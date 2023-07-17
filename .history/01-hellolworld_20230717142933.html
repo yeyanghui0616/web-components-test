@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一个webcomponents组件</title>
+</head>
+<body>
+    <!-- 使用组件 -->
+    <hello-world></hello-world>
+    <hello-world></hello-world>
+    <hello-world></hello-world>
+    <p>aaa</p>
+    <template id="hw-template">
+        <style>
+            /* 组件的样式，支队template内部的标签有效 */
+            p{
+                padding: 10px;
+                background-color: red;
+                color: #fff;
+            }
+        </style>
+        <p>
+            helloworld
+        </p>
+    </template>
+
+    <script>
+
+        // 定义组件类
+        class HelloWorld extends HTMLElement {
+            constructor(){
+                super()
+                // 得到组件的模版内容
+                const templateContent = document.querySelector('#hw-template').content
+                // 创建组件的根元素，影子DOM节点
+                const shadowRoot = this.attachShadow({mode:'open'})
+                // 将模版节点添加到影子DOM节点中
+                shadowRoot.appendChild(templateContent.cloneNode(true))
+            }
+            
+        }
+
+        // customElements.define('组件的名字',组件类)
+        customElements.define('hello-world', HelloWorld)
+
+    </script>
+
+</body>
+</html>

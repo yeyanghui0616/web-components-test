@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-组件的生命周期</title>
+</head>
+<body>
+    <!-- 使用组件 -->
+    <hello-world message="111"></hello-world>
+    <hello-world message="222"></hello-world>
+    <hello-world message="333"></hello-world>
+    <p>aaa</p>
+    <template id="hw-template">
+        <style>
+            /* 组件的样式，只对template内部的标签有效 */
+            .card{
+                width: 500px;
+                height: 500px;
+            }
+            .header{
+                padding: 10px;
+                bgc
+            }
+        </style>
+        <div>
+            <div class="card">
+                <div class="header"></div>
+                <div class="content"></div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+
+        // 定义组件类
+        class HelloWorld extends HTMLElement {
+            constructor(){
+                super()
+                // 得到组件的模版内容
+                const templateContent = document.querySelector('#hw-template').content
+                // 创建组件的根元素，影子DOM节点
+                const shadowRoot = this.attachShadow({mode:'open'})
+                // 将模版节点添加到影子DOM节点中
+                shadowRoot.appendChild(templateContent.cloneNode(true))
+
+                console.log(this.getAttribute('message'))
+
+                // shadowRoot 相当于我们的根结点
+                shadowRoot.querySelector('p').innerHTML = this.getAttribute('message')
+            }
+            connectedCallback(){
+                console.log('connectedCallback :>> ');
+            }
+            disconnectedCallback(){
+                console.log('disconnectedCallback');
+            }
+
+            adopedCallback(){
+
+            }
+
+            attributeChangedCallback(){}
+        }
+
+        // customElements.define('组件的名字',组件类)
+        customElements.define('hello-world', HelloWorld)
+
+    </script>
+
+</body>
+</html>
